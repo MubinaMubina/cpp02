@@ -9,5 +9,14 @@ int main(void) {
 	std::cout << a.getRawBits() << std::endl;
 	std::cout << b.getRawBits() << std::endl;
 	std::cout << c.getRawBits() << std::endl;
+
+	a.setRawBits(42);
+	Fixed d(a);
+	Fixed e;
+	e = a;
+	a.setRawBits(7);
+	std::cout << a.getRawBits() << std::endl; // 7
+	std::cout << d.getRawBits() << std::endl; // 42
+	std::cout << e.getRawBits() << std::endl; // 42
 	return 0;
 }

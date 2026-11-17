@@ -1,46 +1,66 @@
 #include "Fixed.hpp"
 #include <cmath>
 
-// A fixed-point number is an integer scaled by 2^8 (256):
-// raw value = real value * 256
+Fixed::Fixed(void) : _value(0)
+{
+	std::cout << "Default constructor called" << std::endl;
+}
 
-// Fixed(): value = 0; print "Default constructor called"
-Fixed::Fixed(void) : _value(0) {}
+Fixed::Fixed(int const n)
+{
+	std::cout << "Int constructor called" << std::endl;
+	_value = n<< _fractionalBits;
+}
 
-// Fixed(int n): print "Int constructor called"
-//               value = n shifted left by fractionalBits
-Fixed::Fixed(int const n) { (void)n; }
+Fixed::Fixed(float const f)
+{
+	std::cout << "Float constructor called" << std::endl;
+	_value = roundf(f * (1 << _fractionalBits));
+}
 
-// Fixed(float f): print "Float constructor called"
-//                 value = roundf(f * 2^fractionalBits)   (2^bits == 1 << bits)
-Fixed::Fixed(float const f) { (void)f; }
+Fixed::Fixed(Fixed const &other) : _value(0)
+{
+	std::cout << "Copy constructor called" << std::endl;
+	*this = other;
+}
 
-// Fixed(other): print "Copy constructor called"; copy other's value
-Fixed::Fixed(Fixed const &other) { (void)other; }
+Fixed &Fixed::operator=(Fixed const &other)
+{
+	std::cout << "Copy assignment operator called" << std::endl;
+	if(this == &other)
+		return(*this);
+	else
+		_value = other._value;
+	return *this;
+}
 
-// operator=(other): print "Copy assignment operator called"
-//                   if this is not other: copy other's value
-//                   return *this
-Fixed &Fixed::operator=(Fixed const &other) { (void)other; return *this; }
+Fixed::~Fixed(void)
+{
+	std::cout << "Destructor called" << std::endl;
+}
 
-// ~Fixed(): print "Destructor called"
-Fixed::~Fixed(void) {}
+int Fixed::getRawBits(void) const
+{
+	return _value;
+}
 
-// getRawBits(): return value
-int Fixed::getRawBits(void) const { return _value; }
+void Fixed::setRawBits(int const raw)
+{
+	_value = raw;
+}
 
-// setRawBits(raw): value = raw
-void Fixed::setRawBits(int const raw) { (void)raw; }
+float Fixed::toFloat(void) const
+{
+	return (float)_value / (1 << _fractionalBits);
+}
 
-// toFloat(): return (float)value / 2^fractionalBits
-float Fixed::toFloat(void) const { return 0; }
+int Fixed::toInt(void) const
+{
+	return _value >> _fractionalBits;
+}
 
-// toInt(): return value shifted right by fractionalBits
-int Fixed::toInt(void) const { return 0; }
-
-// operator<<(os, fixed): write fixed.toFloat() to os; return os
-//                        (non-member function)
-std::ostream &operator<<(std::ostream &os, Fixed const &fixed) {
-	(void)fixed;
+std::ostream &operator<<(std::ostream &os, Fixed const &fixed)
+{
+	os << fixed.toFloat();
 	return os;
 }

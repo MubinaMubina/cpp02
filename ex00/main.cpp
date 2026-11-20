@@ -1,7 +1,8 @@
 #include <iostream>
 #include "Fixed.hpp"
 
-int main(void) {
+int main(void)
+{
 	Fixed a;
 	Fixed b(a);
 	Fixed c;
@@ -15,8 +16,8 @@ int main(void) {
 	Fixed e;
 	e = a;
 	a.setRawBits(7);
-	std::cout << a.getRawBits() << std::endl; // 7
-	std::cout << d.getRawBits() << std::endl; // 42
-	std::cout << e.getRawBits() << std::endl; // 42
+	std::cout << a.getRawBits() << std::endl;
+	std::cout << d.getRawBits() << std::endl;
+	std::cout << e.getRawBits() << std::endl;
 	return 0;
 }
